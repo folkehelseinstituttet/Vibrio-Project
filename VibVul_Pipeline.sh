@@ -21,7 +21,7 @@ module load java
 # 2. Remove PhiX genome
 ###################################################
 
-time python Clean_Raw_Reads.py
+time python bin/Clean_Raw_Reads.py
 
 echo "######################################"
 echo "Cleaning RAW reads - DONE"
@@ -41,7 +41,7 @@ echo "#####################################\n\n"
 # Activating MultiQC Conda
 source activate MultiQC
 
-time python Quality_Check.py
+time python bin/Quality_Check.py
 
 # Deactivate the MUltiQC Conda
 source deactivate MultiQC
@@ -55,7 +55,7 @@ source deactivate MultiQC
 
 source activate Spades
 
-time python Denova_Assembly.py
+time python bin/Denova_Assembly.py
 
 source deactivate Spades
 
@@ -68,14 +68,14 @@ source deactivate Spades
 module load bowtie2/2.3.1
 module load Python/3.5.2-foss-2016b
 
-time python Reference_Mapping.py
+time python bin/Reference_Mapping.py
 
 ###################################################
 # STEP 5
 # Assembly Corrections
 ###################################################
 
-#time python Assembly_Corrections.py
+#time python bin/Assembly_Corrections.py
 
 ###################################################
 # STEP 6
@@ -85,7 +85,7 @@ time python Reference_Mapping.py
 module load quast/4.6.0
 source activate Python3p7
 
-time python Assembly_Quality_Check.py
+time python bin/Assembly_Quality_Check.py
 
 source deactivate Python3p7
 
@@ -97,7 +97,7 @@ source deactivate Python3p7
 
 source activate AssemblyStats
 
-time python Assembly_Statistics.py
+time python bin/Assembly_Statistics.py
 
 source deactivate AssemblyStats
 
@@ -110,7 +110,7 @@ module load hmmer/3.1b2
 
 source activate Python3p7
 
-time python Annotation.py
+time python bin/Annotation.py
 
 source deactivate Python3p7
 
@@ -124,7 +124,7 @@ source deactivate Python3p7
 
 source activate ARIBA
 
-time python AMR.py
+time python bin/AMR.py
 
 source deactivate ARIBA
 
@@ -134,7 +134,7 @@ source deactivate ARIBA
 ###################################################
 source activate Python3p7
 
-time python Phylogenetics.py
+time python bin/Phylogenetics.py
 
 source activate Python3p7
 
@@ -144,7 +144,7 @@ source activate Python3p7
 # Serotyping : SeqSero 1.0 for Salmonella
 ###################################################
 
-time python Serotyping.py
+time python bin/Serotyping.py
 --MULTILINE-COMMENT--
 
 ###################################################
@@ -156,7 +156,7 @@ time python Serotyping.py
 
 source activate ARIBA
 
-time python cgMLST.py
+time python bin/cgMLST.py
 
 source deactivate ARIBA
 
@@ -166,6 +166,6 @@ source deactivate ARIBA
 ###################################################
 source activate ABRicate
 
-time python AMR_Virulence.py
+time python bin/AMR_Virulence.py
 
 source deactivate ABRicate
