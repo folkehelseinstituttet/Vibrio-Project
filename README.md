@@ -4,7 +4,7 @@ The Vibrio pipeline was developed under Vibrio project. It contains multiple ind
 config.ini files contains the common parameters for the tools.
 
 ## Module name: Clean_Raw_Reads.py
-Input: Fastq files
+_Input:_ Fastq files
 
 Tool: BBDUK is used to remove adapters and PhiX genome
 ```
