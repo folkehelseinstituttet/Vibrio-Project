@@ -156,3 +156,16 @@ ariba run ARIBA_PubMLST_location InputFile1 InputFile2 MLST_reports_file
 ```
 **Output:** 
 MLST Profiles
+
+
+## Module name: Species_Confirmation.py
+**Input:**
+FastQ files
+
+**Tool:**
+kmerid
+```
+time python kmerid.py -f InputFile  --config=config/config.cnf -n >OutPut
+```
+**Output:**
+tab delemited File
