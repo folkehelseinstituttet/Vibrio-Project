@@ -44,6 +44,9 @@ Output: SAM Files
 Input: Reference, assembled genome and fastq files,
 
 Tool: pilon
+```
+NOT WORKING PROPERLY - HAVE TO FIX IT
+```
 
 Output: corrected genome assembly
 
