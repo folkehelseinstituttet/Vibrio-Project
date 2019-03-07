@@ -47,6 +47,17 @@ time python bin/Quality_Check.py
 source deactivate MultiQC
 
 ###################################################
+# STEP 2
+# Check the Quality of Fastq Reads
+###################################################
+
+source activate KmerID
+
+time python Species_Confirmation.py
+
+source deactivate KmerID
+
+###################################################
 # STEP 3
 # Denova Assembly 
 ###################################################
