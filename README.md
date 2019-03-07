@@ -28,8 +28,9 @@ Input: Fastq files
 Tool: Spades
 ```
 spades.py -1 Trimmed_Fastq_Files/fastq_files1 -2 Trimmed_Fastq_Files/fastq_files2 -t 5 -o Output_Folder
-Output: Fasta files
 ```
+Output: Fasta files
+
 ## Module name: Reference_Mapping.py
 Input: Fastq and fasta reference files
 
