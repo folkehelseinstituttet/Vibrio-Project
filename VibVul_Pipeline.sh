@@ -31,9 +31,6 @@ IF2=${files[$N2]}
 echo "Input File 1: "${files[$N1]}
 echo "Input File 2: "${files[$N2]}
 
-##output_dir="/usit/abel/u1/jeevka/FHI/Vibrio_Project_2018/Vibrio_vulnificus/FHI_Data/Vibrio/FastQC_Outputs/"
-## echo "Hello : "$SLURM_ARRAY_TASK_ID
-
 # For bbduk 
 module load java
 
@@ -41,7 +38,6 @@ module load java
 # module load Python/3.5.2-foss-2016b
 
 ###################################################
-# STEP 1
 # 1. Remove the adapter sequences
 # 2. Remove PhiX genome
 ###################################################
@@ -50,15 +46,13 @@ echo "######################################"
 echo "Cleaning RAW reads"
 echo "######################################\n\n"
 
-# time python bin/Clean_Raw_Reads.py $IF1 $IF2 $SLURM_ARRAY_TASK_ID
+time python bin/Clean_Raw_Reads.py $IF1 $IF2 $SLURM_ARRAY_TASK_ID
 
 echo "######################################"
 echo "Cleaning RAW reads - DONE"
 echo "######################################\n\n"
 
-
 ###################################################
-# STEP 2
 # Check the Quality of Fastq Reads
 ###################################################
 module load fastqc/0.11.2
@@ -80,13 +74,13 @@ IF2=${TF1[$N2]}
 echo "Input File 1: "${TF1[$N1]}
 echo "Input File 2: "${TF1[$N2]}
 
-<< --MULTILINE-COMMENT--
 # Activating MultiQC Conda
 source activate MultiQC
 
-#time python bin/Quality_Check.py $IF1 $IF2
+time python bin/Quality_Check.py $IF1 $IF2
 
 # Deactivate the MUltiQC Conda
+
 source deactivate MultiQC
 
 echo "#####################################"
@@ -94,26 +88,26 @@ echo "Executing FastQC ....DONE"
 echo "#####################################\n\n"
 
 ###################################################
-# STEP 2
 # Check the Quality of Fastq Reads
 ###################################################
+
+<< --MULTILINE-COMMENT--
 
 echo "#####################################"
 echo "Executing KmerID ...."
 echo "#####################################\n\n"
 
-source activate KmerID
+conda activate KmerID
 
-#time python bin/Species_Confirmation.py $IF1 $IF2
+time python bin/Species_Confirmation.py $IF1 $IF2
 
-source deactivate KmerID
+conda deactivate
 
 echo "#####################################"
 echo "Executing KmerID ....DONE"
 echo "#####################################\n\n"
 
 ###################################################
-# STEP 3
 # Denova Assembly 
 ###################################################
 
@@ -126,24 +120,20 @@ source activate Spades
 source deactivate Spades
 
 ###################################################
-# STEP 4
 # Reference Mapping
 ###################################################
-
 module load bowtie2/2.3.1
 module load Python/3.5.2-foss-2016b
 
 time python bin/Reference_Mapping.py $IF1 $IF2
 
 ###################################################
-# STEP 5
 # Assembly Corrections
 ###################################################
 
 #time python bin/Assembly_Corrections.py
 
 ###################################################
-# STEP 6
 # Assembly Corrections
 ###################################################
 
@@ -155,7 +145,6 @@ time python bin/Assembly_Quality_Check.py
 source deactivate Python3p7
 
 ###################################################
-# STEP 7
 # Assembly Statistics
 ###################################################
 
@@ -165,10 +154,7 @@ time python bin/Assembly_Statistics.py
 
 source deactivate AssemblyStats
 
-
-
 ###################################################
-# STEP 8
 # Genome Annotation
 ###################################################
 module load prokka/1.7
@@ -181,7 +167,6 @@ time python bin/Annotation.py
 source deactivate Python3p7
 
 ###################################################
-# STEP 9
 # Anti-microbial resistance genes
 ###################################################
 # Preparing the AMR Database
@@ -194,9 +179,7 @@ time python bin/AMR.py $IF1 $IF2
 
 source deactivate ARIBA
 
-
 ###################################################
-# STEP 10
 # Phylogenetic Tree
 ###################################################
 source activate Python3p7
@@ -205,12 +188,9 @@ time python bin/Phylogenetics.py
 
 source deactivate Python3p7
 
---MULTILINE-COMMENT--
 ###################################################
-# STEP 11
 # Serotyping : SeqSero 1.0 for Salmonella
 ###################################################
-
 source activate SeqSero
 
 time python bin/Serotyping.py $IF1 $IF2
@@ -218,13 +198,10 @@ time python bin/Serotyping.py $IF1 $IF2
 source deactivate SeqSero
 
 ###################################################
-# STEP 12
 # cgMLST - Using ARIBA PubMLST
 ###################################################
 # Preparing the PubMLST Reference
 # ariba pubmlstget "Vibrio Vulnificus" get_mlst
-
-<< --MULTILINE-COMMENT--
 
 source activate ARIBA
 
@@ -233,14 +210,47 @@ time python bin/cgMLST.py $IF1 $IF2
 source deactivate ARIBA
 
 ###################################################
-# STEP 13
 # AMRT_Virulance Genes using ABRICATE
 ###################################################
-
 source activate ABRicate
 
 time python bin/AMR_Virulence.py $IF1 $IF2
 
 source deactivate ABRicate
 
+###################################################
+# ResFinder - Resistance genes finder
+###################################################
+source activate ResFinder
+
+time python ResFinder.py $IF1 $IF2
+
+source deactivate ResFinder
+
+###################################################
+# PlasmidFinder - Plasmid Finder 
+###################################################
+source activate PlasmidFinder
+
+time python PlasmidFinder.py $IF1 $IF2
+
+source deactivate PlasmidFinder
+
+###################################################
+# VirulanceFinder - Virulance genes finder
+###################################################
+source activate VirulanceFinder
+
+time python VirulanceFinder.py $IF1 $IF2
+
+source deactivate VirulanceFinder
+
+###################################################
+# PointFinder - Detecting mutations in chromosomes
+###################################################
+source activate PointFinder
+
+time python PointFinder.py $IF1 $IF2
+
+source deactivate PointFinder
 --MULTILINE-COMMENT--
