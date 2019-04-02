@@ -2,7 +2,7 @@ from os import listdir
 import sys
 import re
 import os
-import configparser
+#import ConfigParser
 
 # User defined modules
 import Sub_Functions as SF

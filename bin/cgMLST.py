@@ -21,12 +21,17 @@ if not os.path.exists("cgMLST"):
 # Call to import the Paired end files
 fastq_files = SF.list_paired_end_files_with_pattern(file_location,"*.fastq")
 
-for i in range(0,len(fastq_files),2):
-    IF1 = file_location + fastq_files[i]
-    IF2 = file_location + fastq_files[i+1]
-    MLST_reports_file = MLST_reports + fastq_files[i].split(".")[0]
-    execute_ariba_MLST = "ariba run " + ARIBA_PubMLST_location + " " + IF1 + " " + IF2 + " " + MLST_reports_file
-    os.system(execute_ariba_MLST)
+# Input Files
+IF1 = sys.argv[1]
+IF2 = sys.argv[2]
+
+IN = SF.get_file_name(IF1)
+
+#IF1 = file_location + fastq_files[i]
+#IF2 = file_location + fastq_files[i+1]
+MLST_reports_file = MLST_reports + IN.split(".")[0]
+execute_ariba_MLST = "ariba run " + ARIBA_PubMLST_location + " " + IF1 + " " + IF2 + " " + MLST_reports_file
+os.system(execute_ariba_MLST)
 
 
 # Make the summary-reports from all the runs

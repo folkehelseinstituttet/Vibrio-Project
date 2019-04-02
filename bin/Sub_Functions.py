@@ -4,6 +4,7 @@ This python module contains all the reusable sub-functions
 from os import listdir
 import os
 import fnmatch
+import re
 
 """
 This function will list all the files in a folder
@@ -35,3 +36,9 @@ def list_paired_end_files_with_pattern(file_location,pattern):
     fastq_files.sort()
         
     return fastq_files
+
+
+def get_file_name(INF):
+    temp = INF.split("/")[-1]
+    
+    return temp

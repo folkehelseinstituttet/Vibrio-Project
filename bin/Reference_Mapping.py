@@ -18,10 +18,18 @@ fastq_files = SF.list_paired_end_files_with_pattern(file_location,"*.fastq")
 if not os.path.exists("Reference_Mapped_Files"):
     os.makedirs("Reference_Mapped_Files")
 
-for i in range(0,len(fastq_files),2):
-    # Input Files
-    INF1 = file_location + fastq_files[i]
-    INF2 = file_location + fastq_files[i+1]
-    OF = "Reference_Mapped_Files/" + fastq_files[i].split(".")[0]
-    execute_bowtie2 = "bowtie2 --sensitive -p 30 -x " + ref_genome + " -1 " + INF1 + "-2 " + INF2 + " -S " + OF + ".sam"
-    os.system(execute_bowtie2)
+#for i in range(0,len(fastq_files),2):
+
+# Input Files
+INF1 = sys.argv[1]
+INF2 = sys.argv[2]
+
+# Input Files
+#INF1 = file_location + fastq_files[i]
+#INF2 = file_location + fastq_files[i+1]
+
+IN = SF.get_file_name(INF1)
+
+OF = "Reference_Mapped_Files/" + IN
+execute_bowtie2 = "bowtie2 --sensitive -p 30 -x " + ref_genome + " -1 " + INF1 + "-2 " + INF2 + " -S " + OF + ".sam"
+os.system(execute_bowtie2)

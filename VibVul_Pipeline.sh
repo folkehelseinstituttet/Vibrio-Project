@@ -3,13 +3,11 @@
 #SBATCH --account=nn9305k
 #SBATCH --time=01:00:00
 #SBATCH --mem-per-cpu=32G
-
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=ajkarloss@gmail.com 
 
 ## Array Job 
 #SBATCH --array=1-6
-
 
 ## Set up job environment:
 source /cluster/bin/jobsetup
@@ -31,9 +29,6 @@ IF2=${files[$N2]}
 echo "Input File 1: "${files[$N1]}
 echo "Input File 2: "${files[$N2]}
 
-# For bbduk 
-module load java
-
 # For running Python scripts
 # module load Python/3.5.2-foss-2016b
 
@@ -41,11 +36,7 @@ module load java
 # 1. Remove the adapter sequences
 # 2. Remove PhiX genome
 ###################################################
-
-echo "######################################"
-echo "Cleaning RAW reads"
-echo "######################################\n\n"
-
+module load java
 time python bin/Clean_Raw_Reads.py $IF1 $IF2 $SLURM_ARRAY_TASK_ID
 
 echo "######################################"
@@ -55,13 +46,6 @@ echo "######################################\n\n"
 ###################################################
 # Check the Quality of Fastq Reads
 ###################################################
-module load fastqc/0.11.2
-module load Anaconda3/5.1.0
-
-echo "#####################################"
-echo "Executing FastQC ...."
-echo "#####################################\n\n"
-
 ls -l Trimmed_Fastq_Files/*Trimmed.fastq | awk '{print $9}' >input1.txt
 IFS=$'\n' read -d '' -r -a TF1 < input1.txt
 
@@ -74,13 +58,11 @@ IF2=${TF1[$N2]}
 echo "Input File 1: "${TF1[$N1]}
 echo "Input File 2: "${TF1[$N2]}
 
-# Activating MultiQC Conda
+#module load Anaconda3/5.1.0
+
 source activate MultiQC
-
+#module load fastqc/0.11.2
 time python bin/Quality_Check.py $IF1 $IF2
-
-# Deactivate the MUltiQC Conda
-
 source deactivate MultiQC
 
 echo "#####################################"
@@ -90,18 +72,9 @@ echo "#####################################\n\n"
 ###################################################
 # Check the Quality of Fastq Reads
 ###################################################
-
-<< --MULTILINE-COMMENT--
-
-echo "#####################################"
-echo "Executing KmerID ...."
-echo "#####################################\n\n"
-
-conda activate KmerID
-
+source activate KmerID
 time python bin/Species_Confirmation.py $IF1 $IF2
-
-conda deactivate
+source deactivate KmerID
 
 echo "#####################################"
 echo "Executing KmerID ....DONE"
@@ -110,22 +83,27 @@ echo "#####################################\n\n"
 ###################################################
 # Denova Assembly 
 ###################################################
-
-#module load spades/3.9.0
-
-source activate Spades
-
+#source activate Spades
 #time python bin/Denova_Assembly.py $IF1 $IF2
+#source deactivate Spades
 
-source deactivate Spades
+echo "##################################"
+echo " Denova Assembly.....Done"
+echo "##################################"
 
 ###################################################
 # Reference Mapping
 ###################################################
-module load bowtie2/2.3.1
-module load Python/3.5.2-foss-2016b
+#module load bowtie2/2.3.1
+#module load Python/3.5.2-foss-2016b
 
+source activate /work/projects/nn9305k/src/anaconda3/envs/ReferenceMapping
 time python bin/Reference_Mapping.py $IF1 $IF2
+source deactivate /work/projects/nn9305k/src/anaconda3/envs/ReferenceMapping
+
+echo "##################################"
+echo " Reference Mapping.....Done"
+echo "##################################"
 
 ###################################################
 # Assembly Corrections
@@ -136,35 +114,34 @@ time python bin/Reference_Mapping.py $IF1 $IF2
 ###################################################
 # Assembly Corrections
 ###################################################
-
-module load quast/4.6.0
-source activate Python3p7
-
-time python bin/Assembly_Quality_Check.py
-
-source deactivate Python3p7
+#source activate AssemblyQuality
+#time python bin/Assembly_Quality_Check.py
+#source deactivate Python3p7
 
 ###################################################
 # Assembly Statistics
 ###################################################
-
 source activate AssemblyStats
-
 time python bin/Assembly_Statistics.py
-
 source deactivate AssemblyStats
+
+echo "##################################"
+echo " Assembly Statistics.....Done"
+echo "##################################"
 
 ###################################################
 # Genome Annotation
 ###################################################
-module load prokka/1.7
-module load hmmer/3.1b2
+#module load prokka/1.7
+#module load hmmer/3.1b2
 
-source activate Python3p7
-
+source activate GenomeAnnotation
 time python bin/Annotation.py
+source deactivate GenomeAnnotation
 
-source deactivate Python3p7
+echo "##################################"
+echo "Genome Annotation .....Done"
+echo "##################################"
 
 ###################################################
 # Anti-microbial resistance genes
@@ -174,28 +151,34 @@ source deactivate Python3p7
 # ariba prepareref -f /cluster/home/jeevka/out.card.fa -m /cluster/home/jeevka/out.card.tsv /usit/abel/u1/jeevka/FHI/Vibrio_Project_2018/Vibrio_vulnificus/CARD_DB
 
 source activate ARIBA
-
 time python bin/AMR.py $IF1 $IF2
-
 source deactivate ARIBA
+
+echo "##################################"
+echo "AMR mapping.....Done"
+echo "##################################"
 
 ###################################################
 # Phylogenetic Tree
 ###################################################
 source activate Python3p7
-
 time python bin/Phylogenetics.py
-
 source deactivate Python3p7
+
+echo "##################################"
+echo "Phylogenetics Tree.....Done"
+echo "##################################"
 
 ###################################################
 # Serotyping : SeqSero 1.0 for Salmonella
 ###################################################
 source activate SeqSero
-
 time python bin/Serotyping.py $IF1 $IF2
-
 source deactivate SeqSero
+
+echo "##################################"
+echo " Serotyping.....Done"
+echo "##################################"
 
 ###################################################
 # cgMLST - Using ARIBA PubMLST
@@ -204,53 +187,67 @@ source deactivate SeqSero
 # ariba pubmlstget "Vibrio Vulnificus" get_mlst
 
 source activate ARIBA
-
 time python bin/cgMLST.py $IF1 $IF2
-
 source deactivate ARIBA
+
+echo "##################################"
+echo "cgMLST .....Done"
+echo "##################################"
 
 ###################################################
 # AMRT_Virulance Genes using ABRICATE
 ###################################################
 source activate ABRicate
-
 time python bin/AMR_Virulence.py $IF1 $IF2
-
 source deactivate ABRicate
 
+echo "##################################"
+echo "AMR-Virulance Gene Mapping.....Done"
+echo "##################################"
+
+<< --MULTILINE-COMMENT--
 ###################################################
 # ResFinder - Resistance genes finder
 ###################################################
 source activate ResFinder
-
 time python ResFinder.py $IF1 $IF2
-
 source deactivate ResFinder
+
+echo "##################################"
+echo "ResFinder.....Done"
+echo "##################################"
 
 ###################################################
 # PlasmidFinder - Plasmid Finder 
 ###################################################
 source activate PlasmidFinder
-
 time python PlasmidFinder.py $IF1 $IF2
-
 source deactivate PlasmidFinder
+
+echo "##################################"
+echo "PlasmidFinder.....Done"
+echo "##################################"
 
 ###################################################
 # VirulanceFinder - Virulance genes finder
 ###################################################
 source activate VirulanceFinder
-
 time python VirulanceFinder.py $IF1 $IF2
-
 source deactivate VirulanceFinder
+
+echo "##################################"
+echo "VirulanceFinder.....Done"
+echo "##################################"
 
 ###################################################
 # PointFinder - Detecting mutations in chromosomes
 ###################################################
 source activate PointFinder
-
 time python PointFinder.py $IF1 $IF2
-
 source deactivate PointFinder
+
+echo "##################################"
+echo "PointFinder mapping.....Done"
+echo "##################################"
+
 --MULTILINE-COMMENT--

@@ -16,11 +16,17 @@ asm_files = SF.list_paird_end_files(assembly_location)
 if not os.path.exists("AMR_Virulence_Abricate"):
     os.makedirs("AMR_Virulence_Abricate")   
 
-for i in asm_files:
-    IF = assembly_location + i
-    OF = "AMR_Virulence_Abricate/" + i.split(".")[0]
-    #if not os.path.exists(OF):
-    #    os.makedirs(OF)
+# Input Files
+IF1 = sys.argv[1]
+IF2 = sys.argv[2]
+
+IN = SF.get_file_name(IF1)
+
+IN = IN.split(".")[0] + "_Trimmed.fasta"
+IF = assembly_location + IN
+OF = "AMR_Virulence_Abricate/" + IN.split(".")[0]
+#if not os.path.exists(OF):
+#    os.makedirs(OF)
     
-    execute_abricate = "abricate " + IF + " >" + OF
-    os.system(execute_abricate)
+execute_abricate = "abricate " + IF + " >" + OF
+os.system(execute_abricate)
