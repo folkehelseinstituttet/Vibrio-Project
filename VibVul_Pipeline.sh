@@ -58,17 +58,6 @@ IF2=${TF1[$N2]}
 echo "Input File 1: "${TF1[$N1]}
 echo "Input File 2: "${TF1[$N2]}
 
-#module load Anaconda3/5.1.0
-
-source activate MultiQC
-#module load fastqc/0.11.2
-time python bin/Quality_Check.py $IF1 $IF2
-source deactivate MultiQC
-
-echo "#####################################"
-echo "Executing FastQC ....DONE"
-echo "#####################################\n\n"
-
 ###################################################
 # Check the Quality of Fastq Reads
 ###################################################
@@ -83,9 +72,9 @@ echo "#####################################\n\n"
 ###################################################
 # Denova Assembly 
 ###################################################
-#source activate Spades
-#time python bin/Denova_Assembly.py $IF1 $IF2
-#source deactivate Spades
+source activate Spades
+time python bin/Denova_Assembly.py $IF1 $IF2
+source deactivate Spades
 
 echo "##################################"
 echo " Denova Assembly.....Done"
@@ -94,9 +83,6 @@ echo "##################################"
 ###################################################
 # Reference Mapping
 ###################################################
-#module load bowtie2/2.3.1
-#module load Python/3.5.2-foss-2016b
-
 source activate /work/projects/nn9305k/src/anaconda3/envs/ReferenceMapping
 time python bin/Reference_Mapping.py $IF1 $IF2
 source deactivate /work/projects/nn9305k/src/anaconda3/envs/ReferenceMapping
@@ -106,35 +92,8 @@ echo " Reference Mapping.....Done"
 echo "##################################"
 
 ###################################################
-# Assembly Corrections
-###################################################
-
-#time python bin/Assembly_Corrections.py
-
-###################################################
-# Assembly Corrections
-###################################################
-#source activate AssemblyQuality
-#time python bin/Assembly_Quality_Check.py
-#source deactivate Python3p7
-
-###################################################
-# Assembly Statistics
-###################################################
-source activate AssemblyStats
-time python bin/Assembly_Statistics.py
-source deactivate AssemblyStats
-
-echo "##################################"
-echo " Assembly Statistics.....Done"
-echo "##################################"
-
-###################################################
 # Genome Annotation
 ###################################################
-#module load prokka/1.7
-#module load hmmer/3.1b2
-
 source activate GenomeAnnotation
 time python bin/Annotation.py
 source deactivate GenomeAnnotation
