@@ -31,7 +31,3 @@ os.system(execute_fastQC)
 execute_fastQC = "fastqc -q " + INF2 +" -o " + "FastQC_Reports/"
 os.system(execute_fastQC)
 
-# Executing MultiQC
-execute_multiQC = "multiqc --force FastQC_Reports"
-os.system(execute_multiQC)
-

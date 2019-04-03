@@ -29,7 +29,11 @@ IN = SF.get_file_name(IF1)
 
 #IF1 = file_location + fastq_files[i]
 #IF2 = file_location + fastq_files[i+1]
+
 MLST_reports_file = MLST_reports + IN.split(".")[0]
+if os.path.exists(MLST_reports_file):
+    os.rmdir(MLST_reports_file)
+
 execute_ariba_MLST = "ariba run " + ARIBA_PubMLST_location + " " + IF1 + " " + IF2 + " " + MLST_reports_file
 os.system(execute_ariba_MLST)
 

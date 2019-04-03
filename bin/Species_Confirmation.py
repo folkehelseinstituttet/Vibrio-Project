@@ -27,19 +27,16 @@ if not os.path.exists("KmerID_Reports"):
     os.makedirs("KmerID_Reports")
 
 # Input Files
-INF1 = sys.argv[1]
-INF2 = sys.argv[2]
+INF1 = current_location + sys.argv[1]
+INF2 = current_location + sys.argv[2]
 
-INF1 = SF.get_file_name(INF1)
-INF2 = SF.get_file_name(INF2)
-
-INF1 = file_location + INF1
-INF2 = file_location + INF2
+File1 = SF.get_file_name(INF1) #INF1
+File2 = SF.get_file_name(INF2) #INF2
 
 output_location = current_location + "/KmerID_Reports/"
 
-OF1 = output_location + INF1 + "_out"
-OF2 = output_location + INF2 + "_out"
+OF1 = output_location + File1 + "_out"
+OF2 = output_location + File2 + "_out"
 
 os.chdir(kmerID_loc)
 kmer = "kmerid.py" 

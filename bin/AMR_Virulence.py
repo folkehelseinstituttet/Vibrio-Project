@@ -22,7 +22,7 @@ IF2 = sys.argv[2]
 
 IN = SF.get_file_name(IF1)
 
-IN = IN.split(".")[0] + "_Trimmed.fasta"
+IN = IN.split(".")[0] + ".fasta"
 IF = assembly_location + IN
 OF = "AMR_Virulence_Abricate/" + IN.split(".")[0]
 #if not os.path.exists(OF):
