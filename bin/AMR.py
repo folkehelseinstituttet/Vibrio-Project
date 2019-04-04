@@ -16,16 +16,16 @@ amr_reports = "AMR/"
 
 current_location = os.getcwd()
 
-# Create another folder to store the assembly reports
-#if not os.path.exists(current_location + "AMR"):
-#    os.makedirs(current_location"AMR")
+# Create another folder to store the AMR reports
+if not os.path.exists("AMR"):
+    os.makedirs("AMR")
     
 # Call to import the Paired end files
 fastq_files = SF.list_paired_end_files_with_pattern(file_location,"*.fastq")
 
 # Input Files
-INF1 = file_location + sys.argv[1]
-INF2 = file_location + sys.argv[2]
+INF1 = sys.argv[1]
+INF2 = sys.argv[2]
 
 IN = SF.get_file_name(INF1)
 
