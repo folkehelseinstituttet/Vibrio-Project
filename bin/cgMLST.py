@@ -9,7 +9,7 @@ import Sub_Functions as SF
 config = configparser.ConfigParser()
 config.read("config.ini")
 
-ARIBA_PubMLST_location = config['MLST']['MLST_DB_LOCATION']
+ARIBA_PubMLST_location = config['MLST']['PUB_MLST']
 file_location = config['BASIC']['FASTQ_FILES']
 
 MLST_reports = "cgMLST/"
@@ -33,6 +33,8 @@ IN = SF.get_file_name(IF1)
 MLST_reports_file = MLST_reports + IN.split(".")[0]
 if os.path.exists(MLST_reports_file):
     os.rmdir(MLST_reports_file)
+#else:
+#    os.mkdir(MLST_reports_file)
 
 execute_ariba_MLST = "ariba run " + ARIBA_PubMLST_location + " " + IF1 + " " + IF2 + " " + MLST_reports_file
 os.system(execute_ariba_MLST)
