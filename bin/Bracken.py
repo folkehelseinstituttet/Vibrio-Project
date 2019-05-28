@@ -38,5 +38,5 @@ kraken2_reports_directory = kraken2_reports + IN.split(".")[0]
 #if os.path.exists(kraken2_reports_directory):
 #    os.rmdir(kraken2_reports_directory)
 
-execute_kraken2 = kraken2 + " --db " + kraken_DB + " threads 20 --paired " + INF1 + " " + INF2 + " >" + kraken2_reports_directory
+execute_kraken2 = bracken + " --db " + kraken_DB + " threads 20 --paired " + INF1 + " " + INF2 + " >" + kraken2_reports_directory
 os.system(execute_kraken2)

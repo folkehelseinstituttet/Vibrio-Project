@@ -6,8 +6,23 @@ from os import listdir
 def pick_results(F,SID):
     for i in F:
         if re.search("Predicted antigenic profile",i):
-            temp = i.split()[3]
-            print (SID,"\t",temp)
+            temp1 = i.split()[3]
+            #print (SID,"\t",temp)
+        
+        if re.search("Predicted serotype",i):
+            temp2 = i.split(":")[1]
+            #print (SID,"\t",temp)
+        
+        if re.search("antigen prediction",i):
+            temp3 = i.split(":")[1]
+        
+        if re.search("^H1",i):
+            temp4 = i.split(":")[1]
+            
+        if re.search("^H2",i):
+            temp5 = i.split(":")[1]
+            
+    print(SID,"\t",temp3.strip(),"\t",temp4.strip(),"\t",temp5.strip(),"\t",temp1.strip(),"\t",temp2.strip())
     
     return 0
 

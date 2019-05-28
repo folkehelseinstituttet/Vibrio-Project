@@ -30,27 +30,27 @@ def pick_results(F,SID,t):
         if re.search("read_std",i):
             read_SD = split_by_pattern(i)
             #print (SID + "\tRead-SD-" + result)
-    
+    print(SID,"\t",coverage.strip(),"\t",read_mean.strip(),"\t",read_SD.strip())    
     t.add_row([SID,coverage,read_mean,read_SD])
     
     return t
 
 list_dir = os.listdir("FastQ_Stats_Before_Cleaning/")
 
-print ("FastQ_Stats_Before_Cleaning")
+#print ("FastQ_Stats_Before_Cleaning")
 t = PrettyTable(['Sample', 'No. reads','Coverage','Read_SD'])
 
 for i in list_dir:
     Fname = "FastQ_Stats_Before_Cleaning/" + i
     F1 = open(Fname,"r")
-    t = pick_results(F1,i,t)
+    #t = pick_results(F1,i,t)
     F1.close()
 
-print(t)
+#print(t)
 
 list_dir = os.listdir("FastQ_Stats_After_Cleaning/")
 
-print ("FastQ_Stats_After_Cleaning")
+#print ("FastQ_Stats_After_Cleaning")
 t = PrettyTable(['Sample', 'No. reads','Coverage','Read_SD'])
 
 for i in list_dir:
@@ -59,4 +59,4 @@ for i in list_dir:
     t = pick_results(F1,i,t)
     F1.close()
 
-print(t)
+#print(t)

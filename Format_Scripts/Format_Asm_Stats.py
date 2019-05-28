@@ -1,13 +1,13 @@
 import re
 import os
 import sys
-from prettytable import PrettyTable
+#from prettytable import PrettyTable
 
 assembly_statistics = "Denova_Assemblies/Assembly_Statistics/"
 
 stat_files = os.listdir(assembly_statistics)
 
-def pick_results(F,SID,t):
+def pick_results(F,SID):
     SID = SID.split(".")[0]
     for i in F:
         if re.search("sum",i):
@@ -22,17 +22,18 @@ def pick_results(F,SID,t):
             temp = i.split()
             N50 = temp[2]
             N50 = N50.replace(",","")
-    t.add_row([SID,GSize,N_scaf,Avg_size,N50])
+    print (SID,"\t",GSize,"\t",N_scaf,"\t",Avg_size,"\t",N50)
+    #t.add_row([SID,GSize,N_scaf,Avg_size,N50])
 
-    return t
+    return 0
 
-t = PrettyTable(['Sample', 'Size','NScaf','Avg_size','N50'])
+#t = PrettyTable(['Sample', 'Size','NScaf','Avg_size','N50'])
 
 for i in stat_files:
     #stat_file = assembly_statistics + i
     OF = assembly_statistics + i
     F1 = open(OF,"r")
-    t = pick_results(F1,i,t)
+    t = pick_results(F1,i)
     F1.close()
 
-print(t)
+#print(t)

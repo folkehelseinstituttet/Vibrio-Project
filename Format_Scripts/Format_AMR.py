@@ -101,7 +101,6 @@ def filter_results(F,SID,t,gene_drug,gene_mut,gene_drug_wo_mut):
         
         if isinstance(T,list):
             if len(T) > 1:
-                #print ("*****",T)
                 if int(T[0]) >= 25:
                     n_read_map = 1
                 else:

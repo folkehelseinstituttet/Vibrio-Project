@@ -34,8 +34,8 @@ OF1 = "Serotyping/" + IN.split(".")[0] + "/" + IN.split(".")[0] + "_1.txt"
 OF2 = "Serotyping/" + IN.split(".")[0] + "/" + IN.split(".")[0] + "_2.txt"
 
 #execute_seqsero = seqsero_location + "/SeqSero.py -m 4 -i " + IF + " -b mem"
-execute_seqsero = seqsero_location + "SeqSero.py -m 1 -i " + INF1 + " -b mem >" + OF1
+execute_seqsero = seqsero_location + "SeqSero.py -m 1 -i " + INF1 + " -b sam >" + OF1
 os.system(execute_seqsero)
 
-execute_seqsero = seqsero_location + "SeqSero.py -m 1 -i " + INF2 + " -b mem >" + OF2
+execute_seqsero = seqsero_location + "SeqSero.py -m 1 -i " + INF2 + " -b sam >" + OF2
 os.system(execute_seqsero)
