@@ -23,11 +23,8 @@ def pick_results(F,SID):
             N50 = temp[2]
             N50 = N50.replace(",","")
     print (SID,"\t",GSize,"\t",N_scaf,"\t",Avg_size,"\t",N50)
-    #t.add_row([SID,GSize,N_scaf,Avg_size,N50])
 
     return 0
-
-#t = PrettyTable(['Sample', 'Size','NScaf','Avg_size','N50'])
 
 for i in stat_files:
     #stat_file = assembly_statistics + i
@@ -35,5 +32,3 @@ for i in stat_files:
     F1 = open(OF,"r")
     t = pick_results(F1,i)
     F1.close()
-
-#print(t)

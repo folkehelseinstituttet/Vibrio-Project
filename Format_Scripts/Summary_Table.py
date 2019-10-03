@@ -60,7 +60,10 @@ def format_6(amr_report):
     for i in amr_report:
         temp = i.split()
         temp[0] = temp[0].replace("_Trimmed","")
-        dat[temp[0]] = temp[1] + "-" + temp[2] + "-" + temp[3] 
+        if temp[0] in dat:
+            dat[temp[0]].append(temp[1] + "-" + temp[2] + "-" + temp[3])
+        else:
+            dat[temp[0]] = [temp[1] + "-" + temp[2] + "-" + temp[3]]
     
     return dat
 
@@ -111,7 +114,9 @@ head3 = "#SeqSero_AntiGenProfile#SeqSero_H1-antigen#SeqSero_H2-antigen#SeqSero_A
 head4 = "#MLST_ST#MLST_aroc#MLST_dnaN#MLST_hemD#MLST_hisD#MLSTpurE#MLST_sucA#MLST_thrA"
 head5 = "#AMR_AG#AMR_BL#AMR_Col#AMR_FQ#AMR_FOS#AMR_MLS#AMR_PHE#AMR_SUL#AMR_TET#AMR_TriMET"
 
-print (head1 + head2 + head3 + head4 + head5 + head6)
+print (head1 + head2 + head3 + head4 + "#AMR") #+ head5 + head6)
+
+txt5 = 0
 
 for i in f_stat:
     
@@ -140,7 +145,8 @@ for i in f_stat:
     
     # AMR Report
     try:
-        temp6 = amr_report[i].split()
+        for j in amr_report[i]:
+            txt5 = j + ","
     except:
         temp6 = ["XX-XX-XX"]
         
@@ -160,8 +166,8 @@ for i in f_stat:
     txt4 = ST + "#" + aroc + "#" + dnaN + "#" + hemD + "#" + hisD + "#" + purE + "#" + sucA + "#" + thrA + "#"
     
     # AMR
-    txt5 = ""
+    #txt5 = ""
 
     
-    print (txt1 + txt2 + txt3 + txt4)
+    print (txt1 + txt2 + txt3 + txt4 + txt5)
     #sys.exit()

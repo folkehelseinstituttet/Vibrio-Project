@@ -3,7 +3,7 @@ import re
 import Sub_Functions as SF
 
 OPL = "KmerID_Reports/"
-OPL = "Test_KmerID_Output/"
+#OPL = "Test_KmerID_Output/"
 
 OP_files = SF.list_paird_end_files(OPL)
 

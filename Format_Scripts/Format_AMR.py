@@ -50,6 +50,7 @@ def mutation_AMR_1(dat,gene_drug,gene_mut,SID):
 Compares gene and predicts the drug resistances
 """
 def mutation_AMR_2(dat,gene_drug,SID):
+    
     temp = dat.split()
     for i in gene_drug:
         """
@@ -59,8 +60,9 @@ def mutation_AMR_2(dat,gene_drug,SID):
             """
             check for mutation
             """
-            if re.search(gene_drug[i],temp[16]):
+            if re.search(i,temp[16]):
                 print (SID,"\t",i,"\t",gene_drug[i])
+
     
     return 0
 
