@@ -20,7 +20,6 @@ INF1 = sys.argv[1]
 INF2 = sys.argv[2]
 dir_name = sys.argv[3]
 
-
 if dir_name == "FastQC_Reports_Before_Cleaning":
     fastq_location = config['BASIC']['FASTQ_FILES']
     IF1 = fastq_location + "/" + INF1

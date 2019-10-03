@@ -12,8 +12,9 @@ config.read("config.ini")
 kraken_DB = config['Kraken2']['Kraken2_DB_location']
 kraken2 = config['Kraken2']['Kraken2_location']
 
-
 kraken2_reports = "Kraken2_Reports/"
+kraken2_classified_reports = "Kraken2_Classified_Output/"
+kraken2_unclassified_reports = "Kraken2_UnClassified_Output/"
 
 current_location = os.getcwd()
 
@@ -34,9 +35,18 @@ IN = SF.get_file_name(INF1)
 #IF1 = file_location + fastq_files[i]
 #IF2 = file_location + fastq_files[i+1]
 kraken2_reports_directory = kraken2_reports + IN.split(".")[0]
+kraken2_cls_reports = kraken2_classified_reports + IN.split(".")[0]
+kraken2_ucls_reports = kraken2_unclassified_reports + IN.split(".")[0]
 
 #if os.path.exists(kraken2_reports_directory):
 #    os.rmdir(kraken2_reports_directory)
 
-execute_kraken2 = "kraken2 " + " --db " + kraken_DB + " --use-names --threads 20 --paired " + INF1 + " " + INF2 + " --report " + kraken2_reports_directory
+execute_kraken2 = "kraken" + " --db " + kraken_DB + " --fastq-input --threads 1 " + " --paired " + INF1 + " " + INF2 + " --preload --output " + kraken2_reports_directory
+print (execute_kraken2)
 os.system(execute_kraken2)
+
+kraken2_reports_directory_report = kraken2_reports_directory + "_Reports"
+execute_kraken_report = "kraken-report --db " + kraken_DB + " " + kraken2_reports_directory + ">" + kraken2_reports_directory_report
+os.system(execute_kraken_report)
+
+
