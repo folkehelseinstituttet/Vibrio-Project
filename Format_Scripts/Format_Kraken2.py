@@ -11,11 +11,13 @@ def pick_results(F,SID):
             species = temp[5] + "-" + temp[6]
             break 
     
-    print (temp[0],"\t",SID,"\t",species)
+    #print (temp[0],"\t",SID,"\t",species)
+    txt = temp[0] + "," + SID + "," + species
+    print txt
     
     return species
 
-Kraken2_Reports = "Kraken2_Reports/"
+Kraken2_Reports = "Kraken2_Reports_2020/"
 
 kraken2_files = os.listdir(Kraken2_Reports)
 

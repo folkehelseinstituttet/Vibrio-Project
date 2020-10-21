@@ -73,11 +73,11 @@ def filter_results(F,SID,t,gene_drug,gene_mut,gene_drug_wo_mut):
     SID = SID.split(".")[0]
     for i in range(1,len(F)):
         temp = F[i].split()
-        
+  
         """
         Calculating the mapping coverage
         """
-        map_cov = 100 * (float(temp[8])/float(temp[7]))
+        map_cov = 100 * (float(temp[10])/float(temp[9]))
         
         """
         if the value is dot(.) in the data, then it will end up in error
@@ -85,8 +85,8 @@ def filter_results(F,SID,t,gene_drug,gene_mut,gene_drug_wo_mut):
         if temp[13] == ".":
             temp[13] = 0
         
-        if temp[26] == ".":
-            temp[26] = 0
+        #if temp[26] == ".":
+        #    temp[26] = 0
                     
         n_read_map = 0
         species_id = 0        
@@ -94,12 +94,14 @@ def filter_results(F,SID,t,gene_drug,gene_mut,gene_drug_wo_mut):
         """
         Some data points are just dot(.) So, we need try and except
         """
+        
         try:
             T = temp[26].split(";")
             if 'ND' in T:
                 T = T.replace('ND',0)
         except:
             T = 0
+        
         
         if isinstance(T,list):
             if len(T) > 1:
@@ -158,7 +160,7 @@ F1.close()
 t = PrettyTable(['Sample', 'Cluster','Mutation'])
 
 for i in amr_files:
-    OF = AMR_Reports + i + "/" + "report.tsv"
+    OF = AMR_Reports + i
     F1 = open(OF,"r")
     #print (i)
     """

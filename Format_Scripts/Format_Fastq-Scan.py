@@ -29,7 +29,7 @@ def pick_results(F,SID,t,b4c,status):
         if re.search("read_std",i):
             read_SD = split_by_pattern(i)
     if status == "B4":
-        b4c[SID + "_Trimmed"] = reads
+        b4c[SID] = reads
     else:
         prop = int(reads.strip())/int(b4c[SID])
         print(SID,"\t",reads.strip(),"\t",coverage.strip(),"\t",read_mean.strip(),"\t",read_SD.strip(),"\t",prop)    
@@ -40,22 +40,24 @@ def pick_results(F,SID,t,b4c,status):
     
     return b4c
 
-list_dir = os.listdir("FastQ_Stats_Before_Cleaning/")
+list_dir = os.listdir("FastQ_Stats_Before_Cleaning_Dec2019/")
 
-#print ("FastQ_Stats_Before_Cleaning")
+print ("FastQ_Stats_Before_Cleaning")
 t = PrettyTable(['Sample', 'No. reads','Coverage','Read_SD'])
 b4_clean = {}
 for i in list_dir:
-    Fname = "FastQ_Stats_Before_Cleaning/" + i
+    Fname = "FastQ_Stats_Before_Cleaning_Dec2019/" + i
     F1 = open(Fname,"r")
     b4_clean = pick_results(F1,i,t,b4_clean,"B4")
     F1.close()
 
-list_dir = os.listdir("FastQ_Stats_After_Cleaning/")
+print("FastQ_Stats_After_Cleaning")
+
+list_dir = os.listdir("FastQ_Stats_After_Cleaning_Dec2019/")
 
 t = PrettyTable(['Sample', 'No. reads','Coverage','Read_SD'])
 for i in list_dir:
-    Fname = "FastQ_Stats_After_Cleaning/" + i
+    Fname = "FastQ_Stats_After_Cleaning_Dec2019/" + i
     F1 = open(Fname,"r")
     b4c = pick_results(F1,i,t,b4_clean,"AF")
     F1.close()

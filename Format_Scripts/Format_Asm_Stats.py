@@ -3,7 +3,7 @@ import os
 import sys
 #from prettytable import PrettyTable
 
-assembly_statistics = "Denova_Assemblies/Assembly_Statistics/"
+assembly_statistics = "/cluster/projects/nn9680k/Vibrio_Project/All_Assemblies/Assembly_Statistics/"
 
 stat_files = os.listdir(assembly_statistics)
 
